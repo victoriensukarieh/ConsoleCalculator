@@ -5,6 +5,7 @@ class Program
     static void Main(string[] args)
     {
         bool endApp = false;
+        int count = 0;
 
         // Display title as the C# console calculator app.
         Console.WriteLine("Console Calculator in C#\r");
@@ -65,6 +66,7 @@ class Program
             }
 
             Console.WriteLine("------------------------\n");
+            count++;
 
             // Wait for the user to respond before closing.
             Console.Write("Press 'n' and Enter to close the app, or press any other key and Enter to continue: ");
@@ -75,6 +77,9 @@ class Program
         }
         // Add call to close the JSON writer before return
         calculator.Finish();
+        Console.WriteLine($"The calculator was used {count} times.\n"); // tell the user how many times the calculator was used.
+        Console.WriteLine("Press any key to terminate the program.\n");
+        Console.ReadKey();
         return;
     }
 }
