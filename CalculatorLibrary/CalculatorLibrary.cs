@@ -6,7 +6,6 @@ public class Calculator
 {
 
     JsonWriter writer;
-
     public Calculator()
     {
         StreamWriter logFile = File.CreateText("calculatorlog.json");
@@ -60,6 +59,8 @@ public class Calculator
         writer.WritePropertyName("Result");
         writer.WriteValue(result);
         writer.WriteEndObject();
+        
+
 
         return result;
     }
@@ -88,16 +89,12 @@ public class Calculator
                 writer.WriteValue("Cosine");
                 break;
             case "ts":
-                // Ask the user to enter a non-zero divisor.
-                //if (num2 != 0)
-                //{
-                    result = Math.Sin(num1);
-                //}
+                    result = Math.Sin(num1);               
                 writer.WriteValue("Sin");
                 break;
             case "tt":
                 result = Math.Tan(num1);
-                writer.WriteValue("Add");
+                writer.WriteValue("Tangeant");
                 break;
             // Return text for an incorrect option entry.
             default:
@@ -106,7 +103,6 @@ public class Calculator
         writer.WritePropertyName("Result");
         writer.WriteValue(result);
         writer.WriteEndObject();
-
         return result;
     }
 
@@ -116,4 +112,5 @@ public class Calculator
         writer.WriteEndObject();
         writer.Close();
     }
+
 }

@@ -1,5 +1,5 @@
 ﻿using CalculatorLibrary;
-using System;
+using ConsoleCalculator.Models;
 
 namespace ConsoleCalculator;
 class Program
@@ -8,6 +8,7 @@ class Program
     {
         bool endApp = false;
         int count = 0;
+        List<Operation> history = new();
 
         // Display title as the C# console calculator app.
         Console.WriteLine("Console Calculator in C#\r");
