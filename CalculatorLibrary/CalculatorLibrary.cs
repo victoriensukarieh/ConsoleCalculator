@@ -49,6 +49,56 @@ public class Calculator
                 }
                 writer.WriteValue("Divide");
                 break;
+            case "p":
+                result = Math.Pow(num1 , num2);
+                writer.WriteValue("Add");
+                break;
+            // Return text for an incorrect option entry.
+            default:
+                break;
+        }
+        writer.WritePropertyName("Result");
+        writer.WriteValue(result);
+        writer.WriteEndObject();
+
+        return result;
+    }
+
+    public double DoSingleOperation(double num1, string op)
+    {
+        double result = double.NaN; // Default value is "not-a-number" if an operation, such as division, could result in an error.
+        writer.WriteStartObject();
+        writer.WritePropertyName("Operand");
+        writer.WriteValue(num1);
+        
+        writer.WritePropertyName("Operation");
+        // Use a switch statement to do the math.
+        switch (op)
+        {
+            case "q":
+                result = Math.Sqrt(num1);
+                writer.WriteValue("Square Root");
+                break;
+            case "t":
+                result = num1 * 10;
+                writer.WriteValue("10x");
+                break;
+            case "tc":
+                result = Math.Cos(num1);
+                writer.WriteValue("Cosine");
+                break;
+            case "ts":
+                // Ask the user to enter a non-zero divisor.
+                //if (num2 != 0)
+                //{
+                    result = Math.Sin(num1);
+                //}
+                writer.WriteValue("Sin");
+                break;
+            case "tt":
+                result = Math.Tan(num1);
+                writer.WriteValue("Add");
+                break;
             // Return text for an incorrect option entry.
             default:
                 break;
