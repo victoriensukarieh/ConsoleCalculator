@@ -1,14 +1,12 @@
 ﻿using CalculatorLibrary;
 using ConsoleCalculator.Models;
-
 namespace ConsoleCalculator;
-class Program
-{
+class Program{
     static void Main(string[] args)
     {
         bool endApp = false;
         int count = 0;
-        List<Operation> history = new();
+        //List<Operation> history = new();
 
         // Display title as the C# console calculator app.
         Console.WriteLine("Console Calculator in C#\r");
@@ -17,32 +15,79 @@ class Program
 
         while (!endApp)
         {
-            // Declare variables and set to empty.
-            string choice = "";
-            string numInput1 = "";
-            string numInput2 = "";
-            double result = 0;
+            // Declare variables and set to empty or zeros.
+            string choice;
+            string numInput1;
+            string numInput2;
+            double result;
             string op;
+            double cleanNum1;
 
             // Ask the user if he wants to use single operands or multiple perands operations.
-            Console.WriteLine("to use single operands or multiple perands operations?");
-            Console.WriteLine("\ts - Single");
-            Console.WriteLine("\tm - Multiple");
-            choice = Console.ReadLine();
-
-            // Ask the user to type the first number.
-            Console.Write("Type a number, and then press Enter: ");
-            numInput1 = Console.ReadLine();
-            double cleanNum1 = 0;
-            while (!double.TryParse(numInput1, out cleanNum1))
+            if (count != 0)
             {
-                Console.Write("This is not valid input. Please enter an integer value: ");
-                numInput1 = Console.ReadLine();
+                Console.Clear();
+                Helpers.DisplayHistory();
             }
+            Console.WriteLine("What are you here to do?");
+            Console.WriteLine("\ts - Single Operand Operation.");
+            Console.WriteLine("\tm - Multiple Operands Operation.");
+            Console.WriteLine("\tx - Clear History");
+            choice = Console.ReadLine();
 
             switch (choice.ToUpper())
             {
+                case "X":
+                    Helpers.ClearHistory();
+                    break;
+                case "S":
+                    // Ask the user to type the first number.
+                    Console.Write("Type a number, and then press Enter: ");
+                    numInput1 = Console.ReadLine();
+                    cleanNum1 = 0;
+                    while (!double.TryParse(numInput1, out cleanNum1))
+                    {
+                        Console.Write("This is not valid input. Please enter an integer value: ");
+                        numInput1 = Console.ReadLine();
+                    }
+                    // Ask the user to choose an operator.
+                    Console.WriteLine("Choose an operator from the following list:");
+                    Console.WriteLine("\tq - Square Root");
+                    Console.WriteLine("\tt - 10x");
+                    Console.WriteLine("\ttc - Cos(x)");
+                    Console.WriteLine("\tts - Sin(x)");
+                    Console.WriteLine("\ttt - Tan(x)");
+                    Console.Write("Your option? ");
+
+                    op = Console.ReadLine();
+                    try
+                    {
+                        result = calculator.DoSingleOperation(cleanNum1, op);
+                        if (double.IsNaN(result))
+                        {
+                            Console.WriteLine("This operation will result in a mathematical error.\n");
+                        }
+                        else Console.WriteLine("Your result: {0:0.##}\n", result);
+                        Double[] arrayOperands = new double[1];
+                        arrayOperands[0] = cleanNum1;
+                        Helpers.SaveToHistory(arrayOperands, Helpers.AssignOperation(op), result);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Oh no! An exception occurred trying to do the math.\n - Details: " + e.Message);
+                    }
+                    count++;
+                    break;
                 case "M":
+                    // Ask the user to type the first number.
+                    Console.Write("Type a number, and then press Enter: ");
+                    numInput1 = Console.ReadLine();
+                    cleanNum1 = 0;
+                    while (!double.TryParse(numInput1, out cleanNum1))
+                    {
+                        Console.Write("This is not valid input. Please enter an integer value: ");
+                        numInput1 = Console.ReadLine();
+                    }
                     // Ask the user to type the second number.
                     Console.Write("Type another number, and then press Enter: ");
                     numInput2 = Console.ReadLine();
@@ -71,49 +116,26 @@ class Program
                             Console.WriteLine("This operation will result in a mathematical error.\n");
                         }
                         else Console.WriteLine("Your result: {0:0.##}\n", result);
+                        Double[] arrayOperands = new double[2];
+                        arrayOperands[0] = cleanNum1;
+                        arrayOperands[1] = cleanNum2;
+                        Helpers.SaveToHistory(arrayOperands, Helpers.AssignOperation(op), result);
                     }
                     catch (Exception e)
                     {
                         Console.WriteLine("Oh no! An exception occurred trying to do the math.\n - Details: " + e.Message);
                     }
-                    break;
-                case "S":
-                    // Ask the user to choose an operator.
-                    Console.WriteLine("Choose an operator from the following list:");
-                    Console.WriteLine("\tq - Square Root");
-                    Console.WriteLine("\tt - 10x");
-                    Console.WriteLine("\ttc - Cos(x)");
-                    Console.WriteLine("\tts - Sin(x)");
-                    Console.WriteLine("\ttt - Tan(x)");
-                    Console.Write("Your option? ");
-
-                    op = Console.ReadLine();
-                    try
-                    {
-                        result = calculator.DoSingleOperation(cleanNum1, op);
-                        if (double.IsNaN(result))
-                        {
-                            Console.WriteLine("This operation will result in a mathematical error.\n");
-                        }
-                        else Console.WriteLine("Your result: {0:0.##}\n", result);
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine("Oh no! An exception occurred trying to do the math.\n - Details: " + e.Message);
-                    }
+                    count++;
                     break;
             }
 
-
             Console.WriteLine("------------------------\n");
-            count++;
+            //count++;
 
             // Wait for the user to respond before closing.
             Console.Write("Press 'n' and Enter to close the app, or press any other key and Enter to continue: ");
             if (Console.ReadLine() == "n") endApp = true;
-
             Console.WriteLine("\n"); // Friendly linespacing.
-
         }
         // Add call to close the JSON writer before return
         calculator.Finish();

@@ -1,10 +1,7 @@
 ﻿using Newtonsoft.Json;
-using System.Diagnostics;
 namespace CalculatorLibrary;
-
 public class Calculator
 {
-
     JsonWriter writer;
     public Calculator()
     {
@@ -58,13 +55,10 @@ public class Calculator
         }
         writer.WritePropertyName("Result");
         writer.WriteValue(result);
-        writer.WriteEndObject();
-        
-
+        writer.WriteEndObject();  
 
         return result;
     }
-
     public double DoSingleOperation(double num1, string op)
     {
         double result = double.NaN; // Default value is "not-a-number" if an operation, such as division, could result in an error.
@@ -105,12 +99,10 @@ public class Calculator
         writer.WriteEndObject();
         return result;
     }
-
     public void Finish()
     {
         writer.WriteEndArray();
         writer.WriteEndObject();
         writer.Close();
     }
-
 }
