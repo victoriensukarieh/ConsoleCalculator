@@ -147,8 +147,7 @@ class Program
             }
 
             Console.WriteLine("------------------------\n");
-            //count++;
-
+           
             // Wait for the user to respond before closing.
             Console.Write("Press 'n' and Enter to close the app,'r' to use the result of the last operation, or press any other key and Enter to continue: ");
             string action = Console.ReadLine();
