@@ -43,6 +43,10 @@ internal class Helpers
             }            
         }
     }
+    public static bool NoHistory() {
+        if (history.Count == 0) { return true; }
+        else return false;
+    }
 
     public static void ClearHistory() {
         history.Clear();  
@@ -86,5 +90,9 @@ internal class Helpers
                 break;
         }
         return operationAssigned;
+    }
+    public static double GetLastResult() {
+        var lastResult = history.Last();
+        return lastResult.Result;
     }
 }

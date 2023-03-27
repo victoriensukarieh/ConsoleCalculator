@@ -1,12 +1,14 @@
 ﻿using CalculatorLibrary;
 using ConsoleCalculator.Models;
 namespace ConsoleCalculator;
-class Program{
+class Program
+{
     static void Main(string[] args)
     {
         bool endApp = false;
         int count = 0;
-        //List<Operation> history = new();
+        double savedResult = 0;
+        bool useSaved = false;
 
         // Display title as the C# console calculator app.
         Console.WriteLine("Console Calculator in C#\r");
@@ -41,15 +43,23 @@ class Program{
                     Helpers.ClearHistory();
                     break;
                 case "S":
-                    // Ask the user to type the first number.
-                    Console.Write("Type a number, and then press Enter: ");
-                    numInput1 = Console.ReadLine();
+                    if (useSaved == true)
+                    {
+                        numInput1 = savedResult.ToString();
+                    }
+                    else
+                    {
+                        // Ask the user to type the first number.
+                        Console.Write("Type a number, and then press Enter: ");
+                        numInput1 = Console.ReadLine();
+                    }
                     cleanNum1 = 0;
                     while (!double.TryParse(numInput1, out cleanNum1))
                     {
                         Console.Write("This is not valid input. Please enter an integer value: ");
                         numInput1 = Console.ReadLine();
                     }
+
                     // Ask the user to choose an operator.
                     Console.WriteLine("Choose an operator from the following list:");
                     Console.WriteLine("\tq - Square Root");
@@ -79,9 +89,16 @@ class Program{
                     count++;
                     break;
                 case "M":
-                    // Ask the user to type the first number.
-                    Console.Write("Type a number, and then press Enter: ");
-                    numInput1 = Console.ReadLine();
+                    if (useSaved == true)
+                    {
+                        numInput1 = savedResult.ToString();
+                    }
+                    else
+                    {
+                        // Ask the user to type the first number.
+                        Console.Write("Type a number, and then press Enter: ");
+                        numInput1 = Console.ReadLine();
+                    }
                     cleanNum1 = 0;
                     while (!double.TryParse(numInput1, out cleanNum1))
                     {
@@ -133,8 +150,26 @@ class Program{
             //count++;
 
             // Wait for the user to respond before closing.
-            Console.Write("Press 'n' and Enter to close the app, or press any other key and Enter to continue: ");
-            if (Console.ReadLine() == "n") endApp = true;
+            Console.Write("Press 'n' and Enter to close the app,'r' to use the result of the last operation, or press any other key and Enter to continue: ");
+            string action = Console.ReadLine();
+            if (action == "n") { endApp = true; }
+            else if (action == "r")
+            {
+                if (!Helpers.NoHistory())
+                {
+                    savedResult = Helpers.GetLastResult();
+                    useSaved = true;
+                }
+                else
+                {
+                    Console.WriteLine("no saved result to use.");
+                    useSaved = false;
+                }
+
+            }
+            else useSaved = false;
+
+
             Console.WriteLine("\n"); // Friendly linespacing.
         }
         // Add call to close the JSON writer before return
