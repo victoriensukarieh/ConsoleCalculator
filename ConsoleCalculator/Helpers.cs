@@ -28,7 +28,6 @@ internal class Helpers
         }
         else
         {
-            //Console.WriteLine("Date \t Type \t Player \t Score");
             Console.WriteLine("Calculation History");
             Console.WriteLine("-----------------");
             foreach (var h in history)
