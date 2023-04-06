@@ -1,5 +1,5 @@
 ﻿using CalculatorLibrary;
-using ConsoleCalculator.Models;
+
 namespace ConsoleCalculator;
 class Program
 {
